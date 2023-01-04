@@ -1,11 +1,5 @@
 version: 2.1
 
-env:
-  DOCKER_USERNAME: "vikasharitwal93"
-  DOCKER_PASSWORD: "Rad@567890"
-  IMAGE_NAME: "vikasharitwal93/testvikasnew"
-  CACHE_IMAGE: "vikasharitwal93/testvikasnew1"
-  IMAGE_TAG: "10.0"
 jobs:
  build:
     docker:
@@ -17,7 +11,7 @@ jobs:
       - run: | 
           export DOCKER_USERNAME="vikasharitwal93"
           export DOCKER_PASSWORD="Rad@567890"
-          export IMAGE_NAME: "vikasharitwal93/testvikasnew"
+          export IMAGE_NAME="vikasharitwal93/testvikasnew"
           export CACHE_IMAGE="vikasharitwal93/testvikasnew1"
           export IMAGE_TAG="10.0"
           ls -ltra
