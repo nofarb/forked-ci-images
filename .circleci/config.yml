@@ -1,0 +1,30 @@
+version: 2.1
+
+env:
+  DOCKER_USERNAME: "vikasharitwal93"
+  DOCKER_PASSWORD: "Rad@567890"
+  IMAGE_NAME: "vikasharitwal93/testvikasnew"
+  CACHE_IMAGE: "vikasharitwal93/testvikasnew1"
+  IMAGE_TAG: "10.0"
+jobs:
+ build:
+    docker:
+      - image: cimg/base:stable # DLC does nothing here, its caching depends on commonality of the image layers.
+    steps:
+      - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true # DLC will explicitly cache layers here and try to avoid rebuilding.
+      - run: |
+          ls -ltra
+          echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin
+          export DOCKER_BUILDKIT=1
+          docker build --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --cache-from $CACHE_IMAGE:cache -f custom-images/android/2022.10/Dockerfile  \
+            -t $IMAGE_NAME:$IMAGE_TAG -t $CACHE_IMAGE:cache .
+          docker push $IMAGE_NAME:$IMAGE_TAG
+          docker push $CACHE_IMAGE:cache
+
+workflows:
+  build-deploy:
+    jobs:
+      - build
