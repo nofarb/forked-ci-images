@@ -14,7 +14,12 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true # DLC will explicitly cache layers here and try to avoid rebuilding.
-      - run: |
+      - run: | 
+          export DOCKER_USERNAME="vikasharitwal93"
+          export DOCKER_PASSWORD="Rad@567890"
+          export IMAGE_NAME: "vikasharitwal93/testvikasnew"
+          export CACHE_IMAGE="vikasharitwal93/testvikasnew1"
+          export IMAGE_TAG="10.0"
           ls -ltra
           echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin
           export DOCKER_BUILDKIT=1
