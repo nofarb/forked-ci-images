@@ -3,6 +3,10 @@
 FROM harnesscommunity/ci-base-image:latest
 LABEL maintainer="Community & CI Engineering team <community-engg@harness.io>"
 
+# EDIT1: Add new layers at the beginning.
+RUN rm -rf /tmp/gradle.zip
+RUN mkdir -p /tmp/hello
+
 # Java 11 is default
 RUN sudo apt-get update && sudo apt-get install -y \
 		ant \
