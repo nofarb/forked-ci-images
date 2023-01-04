@@ -1,26 +1,28 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-    docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+ build:
+    machine:
+      image: ubuntu-2004:202104-01
+      docker_layer_caching: true
     steps:
       - checkout
-      - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+      - run: | 
+          export DOCKER_USERNAME="vikasharitwal93"
+          export DOCKER_PASSWORD="Rad@567890"
+          export IMAGE_NAME="vikasharitwal93/testvikasnew"
+          export CACHE_IMAGE="vikasharitwal93/testvikasnew1"
+          export IMAGE_TAG="10.0"
+          ls -ltra
+          echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin
+          export DOCKER_BUILDKIT=1
+          docker build --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --cache-from $CACHE_IMAGE:cache -f custom-images/android/2022.10/Dockerfile  \
+            -t $IMAGE_NAME:$IMAGE_TAG -t $CACHE_IMAGE:cache .
+          docker push $IMAGE_NAME:$IMAGE_TAG
+          docker push $CACHE_IMAGE:cache
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  build-deploy:
     jobs:
-      - say-hello
+      - build
