@@ -3,6 +3,9 @@
 FROM harnesscommunity/ci-base-image:latest
 LABEL maintainer="Community & CI Engineering team <community-engg@harness.io>"
 
+# EDIT1: Added one new layer
+RUN sudo apt-get update
+
 # Java 11 is default
 RUN sudo apt-get update && sudo apt-get install -y \
 		ant \
