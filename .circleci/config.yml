@@ -13,6 +13,7 @@ jobs:
           export IMAGE_NAME="vikasharitwal93/testvikasnew"
           export CACHE_IMAGE="vikasharitwal93/testvikasnew1"
           export IMAGE_TAG="10.0"
+          export TEST="hello"
           ls -ltra
           echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin
           export DOCKER_BUILDKIT=1
