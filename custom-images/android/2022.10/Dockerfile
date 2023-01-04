@@ -3,6 +3,9 @@
 FROM harnesscommunity/ci-base-image:latest
 LABEL maintainer="Community & CI Engineering team <community-engg@harness.io>"
 
+# EDIT1: Add a new layer at the beginning to invalidate cache
+RUN sudo apt-get update && sudo apt-get install -y ant
+
 # Java 11 is default
 RUN sudo apt-get update && sudo apt-get install -y \
 		ant \
